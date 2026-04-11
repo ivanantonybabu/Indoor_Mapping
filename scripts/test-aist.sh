@@ -1,0 +1,78 @@
+#!/bin/bash
+set -e
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+PROJECT_ROOT="$SCRIPT_DIR/.."
+LIB_DIR="$PROJECT_ROOT/lib"
+DATASET_DIR="$PROJECT_ROOT/dataset"
+EXAMPLES_DIR="$LIB_DIR/stella_vslam_examples"
+BUILD_DIR="$EXAMPLES_DIR/build"
+
+if [ -z "$CONDA_PREFIX" ]; then
+    echo "ERROR: Run inside the Pixi environment (pixi shell)."
+    exit 1
+fi
+
+prepare_build_dir() {
+    local src_dir="$1"
+    local build_dir="$2"
+    local cache_file="$build_dir/CMakeCache.txt"
+    local src_dir_abs="$src_dir"
+
+    if [ -d "$src_dir" ]; then
+        src_dir_abs="$(cd "$src_dir" && pwd -P)"
+    fi
+
+    if [ -f "$cache_file" ]; then
+        local cached_src
+        cached_src=$(grep -m 1 "^CMAKE_HOME_DIRECTORY:INTERNAL=" "$cache_file" | cut -d= -f2-)
+        if [ -n "$cached_src" ] && [ "$cached_src" != "$src_dir_abs" ]; then
+            echo "INFO: Removing stale build dir $build_dir (was configured for $cached_src)"
+            rm -rf "$build_dir"
+        fi
+    fi
+
+    mkdir -p "$build_dir"
+}
+
+echo "=========================================="
+echo "   RUN STELLA VSLAM - AIST (VIDEO)"
+echo "=========================================="
+
+# 1. Check dataset
+if [ ! -f "$DATASET_DIR/orb_vocab.fbow" ] || [ ! -f "$DATASET_DIR/aist_living_lab_1/video.mp4" ]; then
+    echo "❌ Dataset missing. Run scripts/dataset.sh first."
+    exit 1
+fi
+
+# 2. Check dependencies
+if [ ! -d "$LIB_DIR/stella_vslam" ] || [ ! -d "$EXAMPLES_DIR" ]; then
+    echo "❌ Missing stella_vslam or stella_vslam_examples under lib/."
+    exit 1
+fi
+if [ ! -f "$EXAMPLES_DIR/3rd/filesystem/include/ghc/filesystem.hpp" ]; then
+    echo "❌ Missing filesystem headers in stella_vslam_examples/3rd."
+    exit 1
+fi
+
+# 3. Build examples if needed
+if [ ! -x "$BUILD_DIR/run_video_slam" ]; then
+    echo "🔨 Building stella_vslam_examples..."
+    prepare_build_dir "$EXAMPLES_DIR" "$BUILD_DIR"
+    cd "$BUILD_DIR"
+    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+    make -j"$(nproc)"
+fi
+
+# 4. Run example
+echo ""
+echo "🚀 Running run_video_slam..."
+cd "$BUILD_DIR"
+./run_video_slam \
+    -v "$DATASET_DIR/orb_vocab.fbow" \
+    -m "$DATASET_DIR/aist_living_lab_1/video.mp4" \
+    -c "$LIB_DIR/stella_vslam/example/aist/equirectangular.yaml" \
+    --map-db-out map.msg \
+    --frame-skip 2 \
+    --viewer pangolin_viewer \
+    --no-sleep

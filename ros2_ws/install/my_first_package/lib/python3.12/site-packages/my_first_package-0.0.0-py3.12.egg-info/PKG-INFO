@@ -1,0 +1,8 @@
+Metadata-Version: 2.1
+Name: my-first-package
+Version: 0.0.0
+Summary: TODO: Package description
+Maintainer: ivan-antony-babu
+Maintainer-email: ivan.ab0001@gmail.com
+License: TODO: License declaration
+Provides-Extra: test

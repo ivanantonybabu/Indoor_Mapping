@@ -1,0 +1,30 @@
+running egg_info
+creating ../../build/my_first_package/my_first_package.egg-info
+writing ../../build/my_first_package/my_first_package.egg-info/PKG-INFO
+writing dependency_links to ../../build/my_first_package/my_first_package.egg-info/dependency_links.txt
+writing requirements to ../../build/my_first_package/my_first_package.egg-info/requires.txt
+writing top-level names to ../../build/my_first_package/my_first_package.egg-info/top_level.txt
+writing manifest file '../../build/my_first_package/my_first_package.egg-info/SOURCES.txt'
+reading manifest file '../../build/my_first_package/my_first_package.egg-info/SOURCES.txt'
+writing manifest file '../../build/my_first_package/my_first_package.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/ivan-antony-babu/Indoor_Mapping/ros2_ws/build/my_first_package/build
+creating /home/ivan-antony-babu/Indoor_Mapping/ros2_ws/build/my_first_package/build/lib
+creating /home/ivan-antony-babu/Indoor_Mapping/ros2_ws/build/my_first_package/build/lib/my_first_package
+copying my_first_package/__init__.py -> /home/ivan-antony-babu/Indoor_Mapping/ros2_ws/build/my_first_package/build/lib/my_first_package
+running install
+running install_lib
+creating /home/ivan-antony-babu/Indoor_Mapping/ros2_ws/install/my_first_package/lib/python3.12/site-packages/my_first_package
+copying /home/ivan-antony-babu/Indoor_Mapping/ros2_ws/build/my_first_package/build/lib/my_first_package/__init__.py -> /home/ivan-antony-babu/Indoor_Mapping/ros2_ws/install/my_first_package/lib/python3.12/site-packages/my_first_package
+byte-compiling /home/ivan-antony-babu/Indoor_Mapping/ros2_ws/install/my_first_package/lib/python3.12/site-packages/my_first_package/__init__.py to __init__.cpython-312.pyc
+running install_data
+creating /home/ivan-antony-babu/Indoor_Mapping/ros2_ws/install/my_first_package/share/ament_index
+creating /home/ivan-antony-babu/Indoor_Mapping/ros2_ws/install/my_first_package/share/ament_index/resource_index
+creating /home/ivan-antony-babu/Indoor_Mapping/ros2_ws/install/my_first_package/share/ament_index/resource_index/packages
+copying resource/my_first_package -> /home/ivan-antony-babu/Indoor_Mapping/ros2_ws/install/my_first_package/share/ament_index/resource_index/packages
+copying package.xml -> /home/ivan-antony-babu/Indoor_Mapping/ros2_ws/install/my_first_package/share/my_first_package
+running install_egg_info
+Copying ../../build/my_first_package/my_first_package.egg-info to /home/ivan-antony-babu/Indoor_Mapping/ros2_ws/install/my_first_package/lib/python3.12/site-packages/my_first_package-0.0.0-py3.12.egg-info
+running install_scripts
+writing list of installed files to '/home/ivan-antony-babu/Indoor_Mapping/ros2_ws/build/my_first_package/install.log'
